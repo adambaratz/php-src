@@ -2122,6 +2122,14 @@ static PHP_METHOD(PDOStatement, debugDumpParams)
 		stmt->query_stringlen,
 		(int) stmt->query_stringlen, stmt->query_string);
 
+	/* show parsed SQL if emulated prepares enabled */
+	/* pointers will be equal if PDO::query() was invoked */
+	if (stmt->active_query_string != NULL && stmt->active_query_string != stmt->query_string) {
+		php_stream_printf(out, "Sent SQL: [%zd] %.*s\n",
+			stmt->active_query_stringlen,
+			(int) stmt->active_query_stringlen, stmt->active_query_string);
+	}
+
 	php_stream_printf(out, "Params:  %d\n",
 		stmt->bound_params ? zend_hash_num_elements(stmt->bound_params) : 0);
 
