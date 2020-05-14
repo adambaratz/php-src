@@ -38,7 +38,7 @@ var_dump($stmt->nextRowset());
 
 // check results from the drop table
 var_dump($stmt->rowCount());
-var_dump($stmt->nextRowset());
+var_dump($stmt->nextRowset()); // returning false because dbresults() returns NO_MORE_RESULTS
 
 // check results from the drop procedure
 var_dump($stmt->rowCount());

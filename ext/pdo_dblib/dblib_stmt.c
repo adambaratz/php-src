@@ -152,12 +152,12 @@ static int pdo_dblib_stmt_next_rowset(pdo_stmt_t *stmt)
 	pdo_dblib_stmt *S = (pdo_dblib_stmt*)stmt->driver_data;
 	pdo_dblib_db_handle *H = S->H;
 
-	if (SUCCEED == dbcanquery(H->link)) {
-		return pdo_dblib_stmt_next_rowset_no_cancel(stmt);
-	} else {
+	if (FAIL == dbcanquery(H->link)) {
 		pdo_raise_impl_error(stmt->dbh, stmt, "HY000", "PDO_DBLIB: dbcanquery() returned FAIL");
 		return 0;
 	}
+
+	return pdo_dblib_stmt_next_rowset_no_cancel(stmt);
 }
 
 static int pdo_dblib_stmt_execute(pdo_stmt_t *stmt)
